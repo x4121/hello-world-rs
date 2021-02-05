@@ -75,7 +75,7 @@ jobs:
       fail-fast: false
       matrix:
         # build: [linux, macos, win-msvc, win-gnu, win32-msvc]
-        build: [win-msvc, win-gnu, win32-msvc]
+        build: [linux, macos, win-msvc, win-gnu, win32-msvc]
         include:
         - build: linux
           os: ubuntu-18.04
@@ -158,7 +158,7 @@ jobs:
           staging="${{ env.BINARY }}-${{ env.RELEASE_VERSION }}-${{ matrix.target }}"
           mkdir -p "$staging"
           if [ "${{ matrix.os }}" = "windows-2019" ]; then
-            cp "target/${{ matrix.target }}/release/${{ env.BINARY }}.exe" "$staging/"
+            cp -r "target" "$staging/"
             7z a "$staging.zip" "$staging"
             echo "ASSET=$staging.zip" >> $GITHUB_ENV
           else
