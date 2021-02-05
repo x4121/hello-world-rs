@@ -74,7 +74,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        build: [linux, macos, win-msvc, win-gnu, win32-msvc]
+        # build: [linux, macos, win-msvc, win-gnu, win32-msvc]
+        build: [win-msvc, win-gnu, win32-msvc]
         include:
         - build: linux
           os: ubuntu-18.04
@@ -149,7 +150,7 @@ jobs:
 
       - name: Strip release binary (windows)
         if: matrix.os == 'windows-2019'
-        run: strip "target/${{ matrix.target }}/release/${{ env.BINARY }}.exe"
+        run: tree
 
       - name: Build archive
         shell: bash
