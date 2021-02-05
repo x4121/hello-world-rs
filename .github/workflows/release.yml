@@ -143,7 +143,12 @@ jobs:
         run: ${{ env.CARGO }} build --verbose --release ${{ env.TARGET_FLAGS }}
 
       - name: Strip release binary
-        run: strip "target/${{ matrix.target }}/release/${{ env.BINARY }}"
+        run: |
+          if [ "${{ matrix.os }}" = "windows-2019" ]; then
+            strip "target/${{ matrix.target }}/release/${{ env.BINARY }}.exe"
+          else
+            strip "target/${{ matrix.target }}/release/${{ env.BINARY }}"
+          fi
 
       - name: Build archive
         shell: bash
