@@ -72,9 +72,7 @@ jobs:
       RUST_BACKTRACE: 1
       BINARY: hw
     strategy:
-      fail-fast: false
       matrix:
-        # build: [linux, macos, win-msvc, win-gnu, win32-msvc]
         build: [linux, macos, win-msvc, win-gnu, win32-msvc]
         include:
         - build: linux
@@ -150,7 +148,7 @@ jobs:
 
       - name: Strip release binary (windows)
         if: matrix.os == 'windows-2019'
-        run: tree
+        run: strip "target/release/${{ env.BINARY }}.exe"
 
       - name: Build archive
         shell: bash
@@ -158,7 +156,7 @@ jobs:
           staging="${{ env.BINARY }}-${{ env.RELEASE_VERSION }}-${{ matrix.target }}"
           mkdir -p "$staging"
           if [ "${{ matrix.os }}" = "windows-2019" ]; then
-            cp -r "target" "$staging/"
+            cp "target/release/${{ env.BINARY }}.exe" "$staging/"
             7z a "$staging.zip" "$staging"
             echo "ASSET=$staging.zip" >> $GITHUB_ENV
           else
